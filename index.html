@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1 class="title">Hello World!</h1>
+      <p id="currentTime"></p>
+      <script src="script.js"></script>
+  </body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CricketLive - Live Cricket Scoring</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, #123d2a 0%, #071b13 45%, #030806 100%);
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .logo {
+      text-align: center;
+      padding: 20px 0 25px;
+    }
+
+    .logo-icon {
+      font-size: 48px;
+    }
+
+    .logo h1 {
+      font-size: 30px;
+      margin-top: 5px;
+    }
+
+    .logo p {
+      color: #a8c8ba;
+      margin-top: 5px;
+    }
+
+    .card {
+      background: rgba(13, 31, 24, 0.94);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    h3 {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      color: #b5cfc3;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 14px;
+      border-radius: 12px;
+      border: 1px solid #345346;
+      background: #091710;
+      color: white;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #22c55e;
+    }
+
+    .btn {
+      width: 100%;
+      border: 0;
+      padding: 15px;
+      border-radius: 13px;
+      font-weight: bold;
+      margin-top: 8px;
+      transition: 0.2s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: #22c55e;
+      color: #041008;
+    }
+
+    .btn-secondary {
+      background: #18382b;
+      color: white;
+      border: 1px solid #315a48;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .room-code {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      text-align: center;
+      padding: 18px;
+      background: #06130d;
+      border-radius: 15px;
+      margin: 15px 0;
+      color: #4ade80;
+    }
+
+    .link-box {
+      background: #06130d;
+      padding: 12px;
+      border-radius: 10px;
+      word-break: break-all;
+      color: #a7f3d0;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .role {
+      padding: 18px 10px;
+      background: #10271d;
+      border: 1px solid #315a48;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .role-icon {
+      font-size: 35px;
+      margin-bottom: 8px;
+    }
+
+    .role strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .role small {
+      color: #91b2a2;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #7f1d1d;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .team-name {
+      color: #a7f3d0;
+      font-size: 14px;
+    }
+
+    .big-score {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .overs {
+      color: #a5b9af;
+      margin-top: 7px;
+    }
+
+    .player-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .player {
+      background: #0a1a12;
+      padding: 14px;
+      border-radius: 13px;
+    }
+
+    .player-title {
+      font-size: 12px;
+      color: #7fa391;
+      margin-bottom: 5px;
+    }
+
+    .player-name {
+      font-weight: bold;
+    }
+
+    .score-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .score-btn {
+      min-height: 58px;
+      border: 0;
+      border-radius: 13px;
+      background: #17452e;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .score-btn:active {
+      background: #22c55e;
+      color: #031008;
+    }
+
+    .wide-btn {
+      background: #284537;
+      font-size: 15px;
+    }
+
+    .wicket-btn {
+      background: #991b1b;
+    }
+
+    .undo-btn {
+      background: #3f3f46;
+    }
+
+    .ball-history {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .ball {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #173c2b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .video-container {
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16 / 9;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .camera-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #7d958a;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .viewer-video {
+      position: relative;
+    }
+
+    .viewer-overlay {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 10px;
+      background: #10271d;
+      color: #a7f3d0;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .error {
+      background: #451a1a;
+      color: #fecaca;
+    }
+
+    .success {
+      background: #123c25;
+      color: #bbf7d0;
+    }
+
+    .footer {
+      text-align: center;
+      color: #638074;
+      font-size: 12px;
+      padding: 20px 0;
+    }
+
+    .section-title {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #b9d3c6;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 430px) {
+      .app {
+        padding: 12px;
+      }
+
+      .big-score {
+        font-size: 40px;
+      }
+
+      .role-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ========================= -->
+  <!-- HOME -->
+  <!-- ========================= -->
+
+  <section id="homePage">
+
+    <div class="logo">
+      <div class="logo-icon">🏏</div>
+      <h1>CricketLive</h1>
+      <p>Live Cricket • Live Scores • Live Matches</p>
+    </div>
+
+    <div class="card">
+      <h2>Create a Live Match</h2>
+
+      <label>Tournament Name</label>
+      <input id="tournamentName" placeholder="Example: Super League 2026">
+
+      <label>Match Name</label>
+      <input id="matchName" placeholder="Example: Final">
+
+      <label>Team A</label>
+      <input id="teamA" placeholder="Team A">
+
+      <label>Team B</label>
+      <input id="teamB" placeholder="Team B">
+
+      <label>Number of Overs</label>
+      <input id="totalOvers" type="number" value="10" min="1">
+
+      <button class="btn btn-primary" onclick="createMatch()">
+        🏏 CREATE LIVE MATCH
+      </button>
+
+      <div id="createStatus"></div>
+    </div>
+
+    <div class="card">
+
+      <h2>Join Existing Match</h2>
+
+      <label>Enter Match Room Code</label>
+      <input id="joinCode" placeholder="Example: AB12CD">
+
+      <button class="btn btn-secondary" onclick="joinMatch()">
+        JOIN MATCH
+      </button>
+
+      <div id="joinStatus"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- ROOM -->
+  <!-- ========================= -->
+
+  <section id="roomPage" class="hidden">
+
+    <div class="card">
+
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        MATCH ROOM
+      </div>
+
+      <h2 style="margin-top:15px;" id="roomMatchName">
+        Match
+      </h2>
+
+      <p id="roomTeams"></p>
+
+      <div class="section-title">
+        Match Room Code
+      </div>
+
+      <div class="room-code" id="roomCode">
+        ------
+      </div>
+
+      <button class="btn btn-secondary" onclick="copyRoomCode()">
+        📋 Copy Room Code
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Choose Device</h3>
+
+      <div class="role-grid">
+
+        <div class="role" onclick="openStreamer()">
+          <div class="role-icon">📹</div>
+          <strong>Streaming Device</strong>
+          <small>Use camera & stream match</small>
+        </div>
+
+        <div class="role" onclick="openScorer()">
+          <div class="role-icon">🏏</div>
+          <strong>Scoring Device</strong>
+          <small>Update live scores</small>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Viewer Link</h3>
+
+      <p style="color:#9bb5a8;font-size:13px;margin-bottom:10px;">
+        Share this link with people who want to watch the match.
+      </p>
+
+      <div class="link-box" id="viewerLink">
+        -
+      </div>
+
+      <button class="btn btn-primary" onclick="copyViewerLink()">
+        🔗 COPY VIEWER LINK
+      </button>
+
+      <button class="btn btn-secondary" onclick="openViewer()">
+        👥 OPEN VIEWER PAGE
+      </button>
+
+    </div>
+
+    <button class="btn btn-danger" onclick="goHome()">
+      EXIT ROOM
+    </button>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- STREAMER -->
+  <!-- ========================= -->
+
+  <section id="streamerPage" class="hidden">
+
+    <div class="card">
+
+      <div class="score-header">
+        <div>
+          <div class="team-name" id="streamMatchName"></div>
+          <h2 style="margin:4px 0;">Streaming Device</h2>
+        </div>
+
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          LIVE
+        </div>
+      </div>
+
+      <div class="video-container">
+
+        <video id="localVideo" autoplay muted playsinline></video>
+
+        <div class="camera-placeholder" id="cameraMessage">
+          Camera preview will appear here.
+        </div>
+
+      </div>
+
+      <button class="btn btn-primary" onclick="startCamera()">
+        📹 START CAMERA
+      </button>
+
+      <button class="btn btn-secondary" onclick="stopCamera()">
+        STOP CAMERA
+      </button>
+
+      <div class="status">
+        Room: <strong id="streamRoomCode"></strong>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Live Score</h3>
+
+      <div id="streamScore"></div>
+
+    </div>
+
+    <button class="btn btn-secondary" onclick="backToRoom()">
+      ← BACK TO ROOM
+    </button>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- SCORER -->
+  <!-- ========================= -->
+
+  <section id="scorerPage" class="hidden">
+
+    <div class="card">
+
+      <div class="score-header">
+
+        <div>
+          <div class="team-name" id="scoreTeamName"></div>
+          <h2 style="margin:4px 0;">Live Scorer</h2>
+        </div>
+
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          LIVE
+        </div>
+
+      </div>
+
+      <div id="scoreDisplay"></div>
+
+      <div class="section-title">
+        Current Batsmen
+      </div>
+
+      <input id="batsman1" placeholder="Striker name">
+
+      <input id="batsman2" placeholder="Non-striker name">
+
+      <div class="section-title">
+        Current Bowler
+      </div>
+
+      <input id="bowlerName" placeholder="Bowler name">
+
+      <button class="btn btn-secondary" onclick="savePlayers()">
+        SAVE PLAYERS
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Add Runs</h3>
+
+      <div class="score-buttons">
+
+        <button class="score-btn" onclick="addBall(0)">0</button>
+        <button class="score-btn" onclick="addBall(1)">1</button>
+        <button class="score-btn" onclick="addBall(2)">2</button>
+
+        <button class="score-btn" onclick="addBall(3)">3</button>
+        <button class="score-btn" onclick="addBall(4)">4</button>
+        <button class="score-btn" onclick="addBall(6)">6</button>
+
+      </div>
+
+      <div class="score-buttons">
+
+        <button class="score-btn wide-btn" onclick="addExtra('wide')">
+          WIDE
+        </button>
+
+        <button class="score-btn wide-btn" onclick="addExtra('noball')">
+          NO BALL
+        </button>
+
+        <button class="score-btn wicket-btn" onclick="addWicket()">
+          WICKET
+        </button>
+
+      </div>
+
+      <button class="btn undo-btn" onclick="undoLastBall()">
+        ↩ UNDO LAST BALL
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Recent Balls</h3>
+
+      <div id="ballHistory" class="ball-history"></div>
+
+    </div>
+
+
+    <button class="btn btn-secondary" onclick="backToRoom()">
+      ← BACK TO ROOM
+    </button>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- VIEWER -->
+  <!-- ========================= -->
+
+  <section id="viewerPage" class="hidden">
+
+    <div class="card">
+
+      <div class="score-header">
+
+        <div>
+          <div class="live-badge">
+            <span class="live-dot"></span>
+            LIVE
+          </div>
+
+          <h2 style="margin-top:10px;" id="viewerMatchName">
+            Cricket Match
+          </h2>
+        </div>
+
+      </div>
+
+      <div class="video-container viewer-video">
+
+        <video id="remoteVideo" autoplay playsinline controls></video>
+
+        <div class="camera-placeholder" id="viewerVideoMessage">
+          📺 Live video will appear here.
+        </div>
+
+        <div class="viewer-overlay">
+          <span class="live-badge">
+            <span class="live-dot"></span>
+            LIVE
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div id="viewerScore"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Recent Balls</h3>
+
+      <div id="viewerBalls" class="ball-history"></div>
+
+    </div>
+
+  </section>
+
+
+  <div class="footer">
+    CricketLive Prototype • Live Cricket Scoring Platform
+  </div>
+
+</div>
+
+
+<!-- Firebase -->
+<script type="module">
+
+  import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+  import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    update,
+    onValue,
+    push,
+    remove
+  }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+  // ==========================================================
+  // FIREBASE CONFIGURATION
+  // ==========================================================
+  //
+  // Replace these values with your Firebase project details.
+  //
+  // ==========================================================
+
+  const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+
+    databaseURL:
+      "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+
+    projectId: "YOUR_PROJECT",
+
+    storageBucket:
+      "YOUR_PROJECT.firebasestorage.app",
+
+    messagingSenderId:
+      "YOUR_MESSAGING_SENDER_ID",
+
+    appId:
+      "YOUR_APP_ID"
+
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  const db = getDatabase(app);
+
+
+  // ==========================================================
+  // GLOBAL STATE
+  // ==========================================================
+
+  let currentRoom = null;
+
+  let currentMatch = null;
+
+  let unsubscribeMatch = null;
+
+  let localStream = null;
+
+
+  // ==========================================================
+  // HELPERS
+  // ==========================================================
+
+  window.showPage = function(pageId) {
+
+    const pages = [
+      "homePage",
+      "roomPage",
+      "streamerPage",
+      "scorerPage",
+      "viewerPage"
+    ];
+
+    pages.forEach(id => {
+
+      document.getElementById(id)
+        .classList.add("hidden");
+
+    });
+
+    document.getElementById(pageId)
+      .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+  };
+
+
+  function randomRoomCode() {
+
+    const chars =
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "";
+
+    for (let i = 0; i < 6; i++) {
+
+      code +=
+        chars[Math.floor(Math.random() * chars.length)];
+
+    }
+
+    return code;
+  }
+
+
+  function databasePath() {
+
+    return ref(
+      db,
+      "matches/" + currentRoom
+    );
+
+  }
+
+
+  // ==========================================================
+  // CREATE MATCH
+  // ==========================================================
+
+  window.createMatch = async function() {
+
+    const tournament =
+      document.getElementById("tournamentName").value.trim();
+
+    const match =
+      document.getElementById("matchName").value.trim();
+
+    const teamA =
+      document.getElementById("teamA").value.trim();
+
+    const teamB =
+      document.getElementById("teamB").value.trim();
+
+    const overs =
+      Number(
+        document.getElementById("totalOvers").value
+      );
+
+
+    if (!teamA || !teamB) {
+
+      showMessage(
+        "createStatus",
+        "Please enter both team names.",
+        true
+      );
+
+      return;
+    }
+
+
+    const room = randomRoomCode();
+
+
+    const matchData = {
+
+      roomCode: room,
+
+      tournament:
+        tournament || "Cricket Tournament",
+
+      matchName:
+        match || "Live Cricket Match",
+
+      teamA,
+
+      teamB,
+
+      totalOvers:
+        overs || 10,
+
+      score: {
+
+        runs: 0,
+
+        wickets: 0,
+
+        balls: 0,
+
+        striker: "",
+
+        nonStriker: "",
+
+        bowler: ""
+
+      },
+
+      balls: {},
+
+      createdAt:
+        Date.now()
+
+    };
+
+
+    try {
+
+      await set(
+        ref(db, "matches/" + room),
+        matchData
+      );
+
+
+      currentRoom = room;
+
+      currentMatch = matchData;
+
+
+      openRoomPage();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "createStatus",
+        "Could not create match. Check Firebase configuration.",
+        true
+      );
+
+    }
+
+  };
+
+
+  // ==========================================================
+  // JOIN MATCH
+  // ==========================================================
+
+  window.joinMatch = async function() {
+
+    const code =
+      document.getElementById("joinCode")
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    if (!code) {
+
+      showMessage(
+        "joinStatus",
+        "Enter a room code.",
+        true
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      const snapshot =
+        await get(
+          ref(db, "matches/" + code)
+        );
+
+
+      if (!snapshot.exists()) {
+
+        showMessage(
+          "joinStatus",
+          "Match room not found.",
+          true
+        );
+
+        return;
+
+      }
+
+
+      currentRoom = code;
+
+      currentMatch =
+        snapshot.val();
+
+
+      openRoomPage();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "joinStatus",
+        "Unable to connect to match.",
+        true
+      );
+
+    }
+
+  };
+
+
+  // ==========================================================
+  // OPEN ROOM
+  // ==========================================================
+
+  function openRoomPage() {
+
+    document.getElementById("roomCode")
+      .textContent = currentRoom;
+
+    document.getElementById("roomMatchName")
+      .textContent =
+      currentMatch.matchName;
+
+    document.getElementById("roomTeams")
+      .textContent =
+      currentMatch.teamA +
+      " vs " +
+      currentMatch.teamB;
+
+
+    const viewerUrl =
+      window.location.origin +
+      window.location.pathname +
+      "?room=" +
+      currentRoom +
+      "&view=1";
+
+
+    document.getElementById("viewerLink")
+      .textContent = viewerUrl;
+
+
+    showPage("roomPage");
+
+    listenToMatch();
+
+  }
+
+
+  // ==========================================================
+  // LISTEN FOR LIVE SCORE CHANGES
+  // ==========================================================
+
+  function listenToMatch() {
+
+    if (unsubscribeMatch) {
